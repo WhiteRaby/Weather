@@ -7,6 +7,8 @@
 //
 
 #import "AppDelegate.h"
+#import "WECitiesController.h"
+#import "WESearchController.h"
 
 @interface AppDelegate ()
 
@@ -20,7 +22,12 @@
     self.window.backgroundColor = [UIColor whiteColor];
     [self.window makeKeyAndVisible];
     
-    self.window.rootViewController = [[UIViewController alloc] init];
+    WECitiesController *citiesController = [[WECitiesController alloc] init];
+    
+    UINavigationController *nc = [[UINavigationController alloc]
+                                  initWithRootViewController:citiesController];
+    
+    self.window.rootViewController = nc;
     return YES;
 }
 

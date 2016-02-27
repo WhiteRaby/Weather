@@ -8,6 +8,7 @@
 
 #import "WEServerManager.h"
 #import <AFNetworking.h>
+#import "WECity.h"
 
 @interface WEServerManager ()
 
@@ -43,31 +44,79 @@ NSString *const APIKey = @"d74e401b2d3f29456cae6b7830f70bc4";
     return self;
 }
 
-- (void)getCitysWeatherWithName:(NSString*)name
-                        success:(void(^)(id city))success
+- (void)getCitiesWithName:(NSString*)name
+                        success:(void(^)(NSArray *cities, NSString *searchName))success
                         failure:(void(^)(NSError *error))failure {
     
-    
     NSDictionary *parameters = [NSDictionary dictionaryWithObjectsAndKeys:
-                                @"London", @"q",
+                                name, @"q",
                                 @"like", @"type",
-                                @"JSON", @"mode", nil];
+                                @"JSON", @"mode",
+                                APIKey, @"APPID", nil];
     
     [self.sessionManager
-     GET:@"api.openweathermap.org/data/2.5/find"
+     GET:@"http://api.openweathermap.org/data/2.5/find"
      parameters:parameters
      progress:nil
-     success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
-         NSLog(@"%@",responseObject);
+     success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {         
+         NSMutableArray *cities = [NSMutableArray array];
+         
+         for (NSDictionary *dict in responseObject[@"list"]) {
+             
+             WECity *city = [[WECity alloc] init];
+             city.name = [dict objectForKey:@"name"];
+             city.country = [[dict objectForKey:@"sys"] objectForKey:@"country"];
+             city.cityID = [[dict objectForKey:@"id"] stringValue];
+             [cities addObject:city];
+         }
+         if (success) {
+             success(cities, name);
+         }
      }
      failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
          
+         if (failure) {
+             failure(error);
+         } else {
+             NSLog(@"%@",error);
+         }
      }];
-    
-    //api.openweathermap.org/data/2.5/find?q=London&type=like&mode=xml
-    return nil;
 }
 
+- (void)updateWeatherForCity:(WECity*)city
+                 atIndexPath:(NSIndexPath*)indexPath
+                     success:(void(^)(NSIndexPath* indexPath))success
+                     failure:(void(^)(NSError *error))failure {
+    
+    NSDictionary *parameters = [NSDictionary dictionaryWithObjectsAndKeys:
+                                city.cityID, @"id",
+                                APIKey, @"APPID", nil];
+ 
+    [self.sessionManager
+     GET:@"http://api.openweathermap.org/data/2.5/weather"
+     parameters:parameters
+     progress:nil
+     success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
+         
+         CGFloat temperature = [[[responseObject objectForKey:@"main"] objectForKey:@"temp"] floatValue];
+         temperature -= 273.15f;
+         city.temperature = [NSString stringWithFormat:@"%0.0f°", temperature];
+         city.weather = [[[responseObject objectForKey:@"weather"] firstObject] objectForKey:@"description"];
+         city.weatherIcon = [[[responseObject objectForKey:@"weather"] firstObject] objectForKey:@"icon"];
+         
+         if (success) {
+             success(indexPath);
+         }
+         
+     } failure:^(NSURLSessionDataTask * _Nullable task, NSError * _Nonnull error) {
+         if (failure) {
+             failure(error);
+         } else {
+             NSLog(@"%@", error);
+         }
+     }];
+}
+    
 @end
 
 

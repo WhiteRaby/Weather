@@ -14,6 +14,9 @@
 		A86B7C711C7F58B200B6DA50 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A86B7C6F1C7F58B200B6DA50 /* LaunchScreen.storyboard */; };
 		A86B7C7D1C7F654B00B6DA50 /* WEServerManager.m in Sources */ = {isa = PBXBuildFile; fileRef = A86B7C7C1C7F654B00B6DA50 /* WEServerManager.m */; };
 		A86B7C801C7F692C00B6DA50 /* WECitiesController.m in Sources */ = {isa = PBXBuildFile; fileRef = A86B7C7F1C7F692C00B6DA50 /* WECitiesController.m */; };
+		A86B7C831C7F7BF300B6DA50 /* WECity.m in Sources */ = {isa = PBXBuildFile; fileRef = A86B7C821C7F7BF300B6DA50 /* WECity.m */; };
+		A86B7C861C7F8C2600B6DA50 /* WESearchController.m in Sources */ = {isa = PBXBuildFile; fileRef = A86B7C851C7F8C2600B6DA50 /* WESearchController.m */; };
+		A86B7CB21C80A60800B6DA50 /* WECityCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A86B7CB11C80A60800B6DA50 /* WECityCell.m */; };
 		BDE12BDCF48C1CC370560C64 /* libPods.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 2825EF887AA11E62A022B8FE /* libPods.a */; };
 /* End PBXBuildFile section */
 
@@ -33,6 +36,12 @@
 		A86B7C7C1C7F654B00B6DA50 /* WEServerManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WEServerManager.m; sourceTree = "<group>"; };
 		A86B7C7E1C7F692C00B6DA50 /* WECitiesController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WECitiesController.h; sourceTree = "<group>"; };
 		A86B7C7F1C7F692C00B6DA50 /* WECitiesController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WECitiesController.m; sourceTree = "<group>"; };
+		A86B7C811C7F7BF300B6DA50 /* WECity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WECity.h; sourceTree = "<group>"; };
+		A86B7C821C7F7BF300B6DA50 /* WECity.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WECity.m; sourceTree = "<group>"; };
+		A86B7C841C7F8C2600B6DA50 /* WESearchController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WESearchController.h; sourceTree = "<group>"; };
+		A86B7C851C7F8C2600B6DA50 /* WESearchController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WESearchController.m; sourceTree = "<group>"; };
+		A86B7CB01C80A60800B6DA50 /* WECityCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = WECityCell.h; sourceTree = "<group>"; };
+		A86B7CB11C80A60800B6DA50 /* WECityCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = WECityCell.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -82,6 +91,12 @@
 				A86B7C7C1C7F654B00B6DA50 /* WEServerManager.m */,
 				A86B7C7E1C7F692C00B6DA50 /* WECitiesController.h */,
 				A86B7C7F1C7F692C00B6DA50 /* WECitiesController.m */,
+				A86B7CB01C80A60800B6DA50 /* WECityCell.h */,
+				A86B7CB11C80A60800B6DA50 /* WECityCell.m */,
+				A86B7C841C7F8C2600B6DA50 /* WESearchController.h */,
+				A86B7C851C7F8C2600B6DA50 /* WESearchController.m */,
+				A86B7C811C7F7BF300B6DA50 /* WECity.h */,
+				A86B7C821C7F7BF300B6DA50 /* WECity.m */,
 				A86B7C6D1C7F58B200B6DA50 /* Assets.xcassets */,
 				A86B7C6F1C7F58B200B6DA50 /* LaunchScreen.storyboard */,
 				A86B7C721C7F58B200B6DA50 /* Info.plist */,
@@ -229,11 +244,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A86B7C831C7F7BF300B6DA50 /* WECity.m in Sources */,
 				A86B7C631C7F58B200B6DA50 /* AppDelegate.m in Sources */,
 				A86B7C601C7F58B200B6DA50 /* main.m in Sources */,
 				A86B7C7D1C7F654B00B6DA50 /* WEServerManager.m in Sources */,
+				A86B7CB21C80A60800B6DA50 /* WECityCell.m in Sources */,
 				A86B7C801C7F692C00B6DA50 /* WECitiesController.m in Sources */,
 				A86B7C6C1C7F58B200B6DA50 /* WeatherForEveryone.xcdatamodeld in Sources */,
+				A86B7C861C7F8C2600B6DA50 /* WESearchController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
