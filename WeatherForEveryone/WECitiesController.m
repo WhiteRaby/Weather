@@ -26,19 +26,25 @@
     self.tableView = [[UITableView alloc] initWithFrame:self.view.bounds style:UITableViewStylePlain];
     self.tableView.dataSource = self;
     self.tableView.delegate = self;
+    self.tableView.autoresizingMask = UIViewAutoresizingFlexibleHeight | UIViewAutoresizingFlexibleWidth;
     [self.view addSubview:self.tableView];
     
     self.cities = [NSMutableArray array];
+    [self loadData];
     
     UIBarButtonItem *addItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(addCityAction:)];
     
+    UIBarButtonItem *reloadItem = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemRefresh target:self action:@selector(reloadAllAction:)];
+    
     self.navigationItem.rightBarButtonItem = addItem;
+    self.navigationItem.leftBarButtonItem = reloadItem;
     
     self.title = @"Cities";
 }
 
-- (void)viewDidAppear:(BOOL)animated {
-    [super viewDidAppear:animated];
+- (void)viewWillDisappear:(BOOL)animated {
+    
+    [super viewWillDisappear:animated];
 }
 
 #pragma mark - Actions
@@ -56,9 +62,36 @@
         [weekSelf.tableView endUpdates];
         
         [weekSelf reloadCityAtIndexPath:[NSIndexPath indexPathForRow:weekSelf.cities.count-1 inSection:0]];
+        
+        //dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        //    [weekSelf saveData];
+        //});
     }];
     
     [self.navigationController pushViewController:searchController animated:YES];
+}
+
+- (void)reloadAllAction:(id)sender {
+    
+    for (NSInteger i = 0; i < self.cities.count; i++) {
+        
+        [self reloadCityAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]];
+    }
+}
+
+- (void)saveData {
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSData *data = [NSKeyedArchiver archivedDataWithRootObject:self.cities];
+    [defaults setObject:data forKey:@"Cities"];
+    [defaults synchronize];
+}
+
+- (void)loadData {
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSData *data = [defaults objectForKey:@"Cities"];
+    if (data) {
+        self.cities = [NSKeyedUnarchiver unarchiveObjectWithData:data];
+    }
 }
 
 - (void)reloadCityAtIndexPath:(NSIndexPath*)indexPath {
@@ -74,6 +107,7 @@
          [weekSelf.tableView reloadRowsAtIndexPaths:@[indexPath]
                                    withRowAnimation:UITableViewRowAnimationFade];
          [weekSelf.tableView endUpdates];
+         [weekSelf saveData];
      } failure:^(NSError *error) {
          NSLog(@"Reload City at indexPath: %@", error);
      }];
@@ -119,6 +153,23 @@
         }];
     }
     return cell;
+}
+
+- (BOOL)tableView:(UITableView *)tableView canEditRowAtIndexPath:(NSIndexPath *)indexPath {
+    return YES;
+}
+
+
+- (void)tableView:(UITableView *)tableView commitEditingStyle:(UITableViewCellEditingStyle)editingStyle forRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (editingStyle == UITableViewCellEditingStyleDelete) {
+        
+        [self.cities removeObjectAtIndex:indexPath.row];
+        [tableView beginUpdates];
+        [tableView deleteRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationLeft];
+        [tableView endUpdates];
+        
+        [self saveData];
+    }
 }
 
 #pragma mark - UITableViewDelegate

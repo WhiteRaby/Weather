@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface WECity : NSObject
+@interface WECity : NSObject <NSCoding>
 @property (strong, nonatomic) NSString *name;
 @property (strong, nonatomic) NSString *country;
 @property (strong, nonatomic) NSString *cityID;

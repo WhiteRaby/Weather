@@ -67,7 +67,10 @@ NSString *const APIKey = @"d74e401b2d3f29456cae6b7830f70bc4";
              city.name = [dict objectForKey:@"name"];
              city.country = [[dict objectForKey:@"sys"] objectForKey:@"country"];
              city.cityID = [[dict objectForKey:@"id"] stringValue];
-             [cities addObject:city];
+             if (![city.cityID isEqualToString:@"0"] && ![city.name isEqualToString:@""] && ![city.country isEqualToString:@""]) {
+                 [cities addObject:city];
+             }
+             //NSLog(@"%@ %@ %@", city.name, city.cityID, [dict objectForKey:@"id"]);
          }
          if (success) {
              success(cities, name);
@@ -88,6 +91,7 @@ NSString *const APIKey = @"d74e401b2d3f29456cae6b7830f70bc4";
                      success:(void(^)(NSIndexPath* indexPath))success
                      failure:(void(^)(NSError *error))failure {
     
+    NSLog(@"updating");
     NSDictionary *parameters = [NSDictionary dictionaryWithObjectsAndKeys:
                                 city.cityID, @"id",
                                 APIKey, @"APPID", nil];
@@ -98,6 +102,7 @@ NSString *const APIKey = @"d74e401b2d3f29456cae6b7830f70bc4";
      progress:nil
      success:^(NSURLSessionDataTask * _Nonnull task, id  _Nullable responseObject) {
          
+         //NSLog(@"%@, %@", responseObject, city.cityID);
          CGFloat temperature = [[[responseObject objectForKey:@"main"] objectForKey:@"temp"] floatValue];
          temperature -= 273.15f;
          city.temperature = [NSString stringWithFormat:@"%0.0f°", temperature];
