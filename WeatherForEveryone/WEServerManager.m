@@ -91,7 +91,7 @@ NSString *const APIKey = @"d74e401b2d3f29456cae6b7830f70bc4";
                      success:(void(^)(NSIndexPath* indexPath))success
                      failure:(void(^)(NSError *error))failure {
     
-    NSLog(@"updating");
+    //NSLog(@"updating");
     NSDictionary *parameters = [NSDictionary dictionaryWithObjectsAndKeys:
                                 city.cityID, @"id",
                                 APIKey, @"APPID", nil];
