@@ -69,10 +69,15 @@
 
 - (void)reloadAllAction:(id)sender {
     
-    for (NSInteger i = 0; i < self.cities.count; i++) {
-        
-        [self reloadCityAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]];
-    }
+    __weak WECitiesController *weekSelf = self;
+    
+    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
+        for (NSInteger i = 0; i < self.cities.count; i++) {
+            [weekSelf reloadCityAtIndexPath:[NSIndexPath indexPathForRow:i inSection:0]];
+            [NSThread sleepForTimeInterval:0.1f];
+            NSLog(@"upadate");
+        }
+    });
 }
 
 - (void)saveData {
@@ -101,7 +106,7 @@
      success:^(NSIndexPath *indexPathnew) {
          [weekSelf.tableView beginUpdates];
          [weekSelf.tableView reloadRowsAtIndexPaths:@[indexPath]
-                                   withRowAnimation:UITableViewRowAnimationFade];
+                                   withRowAnimation:UITableViewRowAnimationNone];
          [weekSelf.tableView endUpdates];
          [weekSelf saveData];
      } failure:^(NSError *error) {

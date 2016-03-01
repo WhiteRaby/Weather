@@ -106,6 +106,9 @@ NSString *const APIKey = @"d74e401b2d3f29456cae6b7830f70bc4";
          CGFloat temperature = [[[responseObject objectForKey:@"main"] objectForKey:@"temp"] floatValue];
          temperature -= 273.15f;
          city.temperature = [NSString stringWithFormat:@"%0.0f°", temperature];
+         if ([city.temperature characterAtIndex:0] == '-') {
+             city.temperature = [city.temperature substringFromIndex:1];
+         }
          city.weather = [[[responseObject objectForKey:@"weather"] firstObject] objectForKey:@"description"];
          city.weatherIcon = [[[responseObject objectForKey:@"weather"] firstObject] objectForKey:@"icon"];
          
