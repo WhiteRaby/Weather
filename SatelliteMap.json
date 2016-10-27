@@ -1,0 +1,23 @@
+{
+    "version": 8,
+    "sources": {
+        "simple-tiles": {
+            "type": "raster",
+            "url": "mapbox://mapbox.satellite",
+            "tileSize": 256
+        }
+    },
+    "layers": [{
+               "id": "background",
+               "type": "background",
+               "paint": {
+               "background-color": "#FFF9E8"
+               }
+               },
+               {
+               "id": "simple-tiles",
+               "type": "raster",
+               "source": "simple-tiles"
+               }
+               ]
+}
